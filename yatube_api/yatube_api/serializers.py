@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from yatube_api.posts.models import Group, Post
+from posts.models import Group, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -20,4 +20,5 @@ class PostSerializer(serializers.ModelSerializer):
             'pub_date',
             'group',
         )
+        read_only_fields = ('author',)
         model = Post
