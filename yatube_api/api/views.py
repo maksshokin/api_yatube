@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework import viewsets
+from rest_framework.exceptions import MethodNotAllowed
 
 from api.permissions import IsAuthor
 
@@ -21,11 +22,10 @@ class PostViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    def perform_create(self, serializer):
-        if self.request.user.is_staff:
-            serializer.save()
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    permission_classes = (permissions.IsAuthenticated,)
+    def create(self, request):
+        raise MethodNotAllowed('POST')
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
