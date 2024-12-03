@@ -4,7 +4,6 @@ from posts.models import Comment, Group, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-    """Основной сериализатор."""
     group = serializers.SlugRelatedField(
         slug_field='slug',
         queryset=Group.objects.all(),
