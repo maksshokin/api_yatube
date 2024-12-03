@@ -33,6 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
         read_only_fields = ('author',)
         model = Post
 
+
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
@@ -43,6 +44,7 @@ class GroupSerializer(serializers.ModelSerializer):
         )
         model = Group
 
+
 class CommentSerializer(serializers.ModelSerializer):
     post = serializers.PrimaryKeyRelatedField(
         read_only=True
@@ -51,6 +53,7 @@ class CommentSerializer(serializers.ModelSerializer):
         slug_field='username',
         read_only=True
     )
+
     class Meta:
         fields = (
             'id',
