@@ -8,7 +8,6 @@ from api.serializers import CommentSerializer, GroupSerializer, PostSerializer
 from posts.models import Group, Post, Comment
 
 
-
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
