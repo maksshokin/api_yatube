@@ -9,10 +9,12 @@ from api.views import CommentViewSet, PostViewSet, GroupViewSet
 
 router = routers.DefaultRouter()
 router.register('posts', PostViewSet)
-router.register('groups', GroupViewSet)
 router.register(
-    r'^posts/(?P<post_id>[-\w]+)/comments/?$',
-    CommentViewSet)
+    r'posts/(?P<post_id>\d+)/comments',
+    CommentViewSet,
+    basename='comments')
+router.register('groups', GroupViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
