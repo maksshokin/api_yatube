@@ -17,24 +17,27 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
-    def create(self, request):
-        raise MethodNotAllowed('POST')
-
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthor, permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
-        post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
-        serializer.save(author=self.request.user, post=post)
+        serializer.save(
+            author=self.request.user,
+            post=self.get_post()
+        )
+
+    def get_post(self):
+        return get_object_or_404(
+            Post,
+            pk=self.kwargs.get('post_id')
+        )
 
     def get_queryset(self):
-        post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
-        return post.comments.all()
+        return self.get_post().comments.all()
